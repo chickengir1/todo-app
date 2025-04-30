@@ -1,0 +1,25 @@
+<li
+  class="flex items-center justify-between p-3 bg-white rounded-lg shadow mb-2"
+>
+  <div class="flex items-center gap-2">
+    <input
+      type="checkbox"
+      class="h-4 w-4 text-blue-600"
+      [checked]="todo.completed"
+      (change)="toggle.emit(todo.id)"
+    />
+    <span
+      [class.line-through]="todo.completed"
+      [class.text-gray-400]="todo.completed"
+    >
+      {{ todo.title }}
+    </span>
+  </div>
+  <button
+    aria-label="delete"
+    class="text-red-500 hover:text-red-700"
+    (click)="remove.emit(todo.id)"
+  >
+    ✕
+  </button>
+</li>
