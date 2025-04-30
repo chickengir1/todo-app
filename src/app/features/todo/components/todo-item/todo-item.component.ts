@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ★ 추가
+import { CommonModule } from '@angular/common';
 import type { Todo } from '../../models/todo.model';
 
 @Component({
   selector: 'app-todo-item',
   standalone: true,
-  imports: [CommonModule], // ★ CommonModule 등록
+  imports: [CommonModule],
   templateUrl: './todo-item.component.html',
 })
 export class TodoItemComponent {
