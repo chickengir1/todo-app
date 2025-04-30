@@ -21,8 +21,8 @@
     <app-todo-item
       *ngFor="let t of todoService.todoList$ | async"
       [todo]="t"
-      (toggle)="todoService.toggle($event)"
-      (remove)="todoService.remove($event)"
+      (toggle)="toggleTodo($event)"
+      (remove)="removeTodo($event)"
     ></app-todo-item>
     <li
       *ngIf="(todoService.todoList$ | async)?.length === 0"
@@ -37,19 +37,10 @@
     <span>남은 항목: {{ todoService.remainingCount$ | async }}</span>
     <button
       class="mt-2 sm:mt-0 text-red-500 hover:text-red-700 hover:underline focus:outline-none"
-      (click)="todoService.clearCompleted()"
-      [disabled]="
-        (todoService.remainingCount$ | async) ===
-        (todoService.todoList$ | async)?.length
-      "
-      [class.opacity-50]="
-        (todoService.remainingCount$ | async) ===
-        (todoService.todoList$ | async)?.length
-      "
-      [class.cursor-not-allowed]="
-        (todoService.remainingCount$ | async) ===
-        (todoService.todoList$ | async)?.length
-      "
+      (click)="clearCompletedTodos()"
+      [disabled]="!hasCompletedTodos()"
+      [class.opacity-50]="!hasCompletedTodos()"
+      [class.cursor-not-allowed]="!hasCompletedTodos()"
     >
       완료 항목 삭제
     </button>
