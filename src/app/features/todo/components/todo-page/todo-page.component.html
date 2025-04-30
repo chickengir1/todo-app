@@ -1,0 +1,57 @@
+<div class="max-w-2xl mx-auto mt-12 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-md">
+  <h1 class="text-3xl sm:text-4xl font-bold text-center mb-6 text-gray-800">
+    투두 리스트
+  </h1>
+  <div class="flex mb-6 shadow rounded-lg overflow-hidden">
+    <input
+      type="text"
+      class="flex-1 p-3 border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full text-sm border-0 focus:outline-none"
+      placeholder="할 일을 입력하세요…"
+      [(ngModel)]="title"
+      (keyup.enter)="addTodo()"
+    />
+    <button
+      class="px-5 py-3 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+      (click)="addTodo()"
+    >
+      추가
+    </button>
+  </div>
+  <ul class="space-y-3 mb-6">
+    <app-todo-item
+      *ngFor="let t of todoService.todoList$ | async"
+      [todo]="t"
+      (toggle)="todoService.toggle($event)"
+      (remove)="todoService.remove($event)"
+    ></app-todo-item>
+    <li
+      *ngIf="(todoService.todoList$ | async)?.length === 0"
+      class="text-center text-gray-500 py-4"
+    >
+      등록된 할 일이 없습니다.
+    </li>
+  </ul>
+  <div
+    class="flex flex-col sm:flex-row justify-between items-center mt-4 text-sm text-gray-600 border-t border-gray-200 pt-4"
+  >
+    <span>남은 항목: {{ todoService.remainingCount$ | async }}</span>
+    <button
+      class="mt-2 sm:mt-0 text-red-500 hover:text-red-700 hover:underline focus:outline-none"
+      (click)="todoService.clearCompleted()"
+      [disabled]="
+        (todoService.remainingCount$ | async) ===
+        (todoService.todoList$ | async)?.length
+      "
+      [class.opacity-50]="
+        (todoService.remainingCount$ | async) ===
+        (todoService.todoList$ | async)?.length
+      "
+      [class.cursor-not-allowed]="
+        (todoService.remainingCount$ | async) ===
+        (todoService.todoList$ | async)?.length
+      "
+    >
+      완료 항목 삭제
+    </button>
+  </div>
+</div>
