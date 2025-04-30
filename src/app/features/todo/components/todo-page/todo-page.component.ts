@@ -2,15 +2,32 @@ import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TodoService } from '../../services/todo.service';
-import type { Todo } from '../../models/todo.model';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import type { Todo } from '../../models/todo.model';
 
-function getActiveTodos(todos: Todo[]) {
-  return todos.filter((todo) => !todo.completed);
+interface CheckTodoArgs {
+  todoList: Todo[];
+  remainingCount: number;
 }
 
-function isTrimmed(value: string) {
-  return value.trim() !== '';
+interface AddTodoArgs {
+  title: string;
+  todoService: TodoService;
+}
+
+function checkHasCompletedTodos({ todoList, remainingCount }: CheckTodoArgs) {
+  return todoList.length > 0 && remainingCount !== todoList.length;
+}
+
+function handleAddTodo({ title, todoService }: AddTodoArgs) {
+  const trimmedTitle = title.trim();
+
+  if (!trimmedTitle) return title;
+
+  todoService.add(trimmedTitle);
+
+  return '';
 }
 
 @Component({
@@ -22,18 +39,28 @@ function isTrimmed(value: string) {
 export class TodoPageComponent {
   todoService = inject(TodoService);
 
-  title = signal<string>('');
+  title = signal('');
 
-  hasCompletedTodos = computed(() => {
-    const currentList = this.todoService.getTodos();
-    const remaining = getActiveTodos(currentList).length;
-    return remaining !== currentList.length && currentList.length > 0;
+  todoList = toSignal(this.todoService.todoList$, { initialValue: [] });
+
+  remainingCount = toSignal(this.todoService.remainingCount$, {
+    initialValue: 0,
   });
 
+  hasCompletedTodos = computed(() =>
+    checkHasCompletedTodos({
+      todoList: this.todoList(),
+      remainingCount: this.remainingCount(),
+    })
+  );
+
   addTodo() {
-    const value = this.title();
-    if (isTrimmed(value)) this.todoService.add(value);
-    if (isTrimmed(value)) this.title.set('');
+    this.title.set(
+      handleAddTodo({
+        title: this.title(),
+        todoService: this.todoService,
+      })
+    );
   }
 
   toggleTodo(id: string) {
