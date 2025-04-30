@@ -1,23 +1,32 @@
 <li
-  class="flex items-center justify-between p-3 bg-white rounded-lg shadow mb-2"
+  class="group mb-4 flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 ease-in-out"
 >
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-3 w-full">
     <input
       type="checkbox"
-      class="h-4 w-4 text-blue-600"
+      class="h-5 w-5 rounded-full border-2 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-300 cursor-pointer transition-colors duration-200"
       [checked]="todo.completed"
       (change)="toggle.emit(todo.id)"
     />
-    <span [ngClass]="{ 'line-through text-gray-400': todo.completed }">
+    <span
+      [ngClass]="{
+        'line-through text-gray-400': todo.completed,
+        'text-gray-800': !todo.completed
+      }"
+      class="w-full text-lg font-medium transition-colors duration-200"
+    >
       {{ todo.title }}
     </span>
   </div>
 
   <button
-    aria-label="delete"
-    class="text-red-500 hover:text-red-700"
+    [ngClass]="{
+      'bg-red-300 text-red-800': todo.completed,
+      'bg-red-100 text-red-600': !todo.completed
+    }"
+    class="text-sm px-4 py-1 rounded-md transition-colors duration-200 hover:bg-red-400"
     (click)="remove.emit(todo.id)"
   >
-    ✕
+    X
   </button>
 </li>
