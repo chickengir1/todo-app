@@ -8,13 +8,11 @@
       [checked]="todo.completed"
       (change)="toggle.emit(todo.id)"
     />
-    <span
-      [class.line-through]="todo.completed"
-      [class.text-gray-400]="todo.completed"
-    >
+    <span [ngClass]="{ 'line-through text-gray-400': todo.completed }">
       {{ todo.title }}
     </span>
   </div>
+
   <button
     aria-label="delete"
     class="text-red-500 hover:text-red-700"
