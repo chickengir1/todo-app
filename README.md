@@ -1,28 +1,45 @@
-# Angular Todo List
+# Todo App
 
-Angular와 Tailwind CSS로 만든 간단한 Todo List 웹 애플리케이션입니다.
+Modern Angular 19 todo application built with Signals and TypeScript.
 
-## 기능
+## Features
 
-- 할 일 추가, 완료/미완료 토글, 개별 삭제
-- 완료된 할 일 일괄 삭제
-- 남은 할 일 개수 표시
-- 반응형 UI
+- Add, toggle, and delete todos
+- Clear completed items
+- Real-time counter
+- Responsive design
 
-## 사용 기술
+## Tech Stack
 
-- **프레임워크** Angular
-- **언어** TypeScript
-- **스타일링** Tailwind CSS
-- **상태 관리** Angular Signals
+- Angular 19 with Signals
+- TypeScript (strict mode)
+- Tailwind CSS
+- Standalone components
+- Component-centric architecture
 
-## 실행 방법
+## Development
 
-1.  **의존성 설치**
-    ```bash
-    npm install
-    ```
-2.  **개발 서버 실행**:
-    ```bash
-    ng serve
-    ```
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start development server:
+
+```bash
+npm start
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+## Architecture
+
+- **Signal-based state management** - No external state libraries
+- **Functional programming patterns** - Pure functions and immutability
+- **Component composition** - Reusable icon components
+- **Type-safe** - Strict TypeScript configuration

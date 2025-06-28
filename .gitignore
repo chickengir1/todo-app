@@ -42,3 +42,7 @@ testem.log
 Thumbs.db
 
 settings.json
+extensions.json
+launch.json
+tasks.json
+
