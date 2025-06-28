@@ -8,42 +8,56 @@
       class="flex-1 p-3 border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full text-sm border-0 focus:outline-none"
       placeholder="할 일을 입력하세요…"
       [(ngModel)]="title"
-      (keyup.enter)="addTodo()"
+      (keyup.enter)="onEnterKey()"
     />
     <button
-      class="px-5 py-3 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+      class="px-5 py-3 bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out disabled:opacity-50"
       (click)="addTodo()"
+      [disabled]="!vm().canAddTodo"
     >
       추가
     </button>
   </div>
   <ul class="space-y-3 mb-6">
-    @for (t of todoService.todoList$ | async; track t.id) {
+    @for (todo of vm().todoList; track todo.id) {
     <app-todo-item
-      [todo]="t"
-      (toggle)="toggleTodo($event)"
-      (remove)="removeTodo($event)"
-    ></app-todo-item>
-    }
-    <li
-      *ngIf="(todoService.todoList$ | async)?.length === 0"
-      class="text-center text-gray-500 py-4"
-    >
-      등록된 할 일이 없습니다.
+      [todo]="todo"
+      (toggle)="onToggleTodo($event)"
+      (remove)="onRemoveTodo($event)"
+    />
+    } @empty {
+    <li class="text-center text-gray-500 py-8">
+      <div class="flex flex-col items-center gap-2">
+        <app-clipboard-icon class="w-12 h-12 text-gray-300" />
+        <span class="text-lg font-medium">등록된 할 일이 없습니다</span>
+        <span class="text-sm">위에서 새로운 할 일을 추가해보세요</span>
+      </div>
     </li>
+    }
   </ul>
   <div
-    class="flex flex-col sm:flex-row justify-between items-center mt-4 text-sm text-gray-600 border-t border-gray-200 pt-4"
+    class="flex flex-col sm:flex-row justify-between items-center mt-4 text-sm text-gray-600 border-t border-gray-200 pt-4 gap-3"
   >
-    <span>남은 항목: {{ todoService.remainingCount$ | async }}</span>
+    <div class="flex items-center gap-4">
+      <span class="flex items-center gap-1">
+        <app-check-circle-icon class="w-4 h-4" />
+        남은 항목: {{ vm().remainingCount }}개
+      </span>
+      @if (vm().totalCount > 0) {
+      <span class="text-xs bg-gray-200 px-2 py-1 rounded-full">
+        전체 {{ vm().totalCount }}개
+      </span>
+      }
+    </div>
+
+    @if (vm().hasCompletedTodos) {
     <button
-      class="mt-2 sm:mt-0 text-red-500 hover:text-red-700 hover:underline focus:outline-none"
-      (click)="clearCompletedTodos()"
-      [disabled]="!hasCompletedTodos()"
-      [class.opacity-50]="!hasCompletedTodos()"
-      [class.cursor-not-allowed]="!hasCompletedTodos()"
+      class="flex items-center gap-1 text-red-500 hover:text-red-700 hover:underline focus:outline-none transition-colors duration-200"
+      (click)="onClearCompleted()"
     >
+      <app-trash-icon class="w-4 h-4" />
       완료 항목 삭제
     </button>
+    }
   </div>
 </div>

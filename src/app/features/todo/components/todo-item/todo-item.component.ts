@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { Todo } from '../../models/todo.model';
 
@@ -9,8 +9,16 @@ import type { Todo } from '../../models/todo.model';
   templateUrl: './todo-item.component.html',
 })
 export class TodoItemComponent {
-  @Input({ required: true }) todo!: Todo;
+  readonly todo = input.required<Todo>();
 
-  @Output() toggle = new EventEmitter<string>();
-  @Output() remove = new EventEmitter<string>();
+  readonly toggle = output<string>();
+  readonly remove = output<string>();
+
+  onToggle(): void {
+    this.toggle.emit(this.todo().id);
+  }
+
+  onRemove(): void {
+    this.remove.emit(this.todo().id);
+  }
 }

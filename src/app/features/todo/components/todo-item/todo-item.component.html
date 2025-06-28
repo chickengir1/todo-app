@@ -5,28 +5,28 @@
     <input
       type="checkbox"
       class="h-5 w-5 rounded-full border-2 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-300 cursor-pointer transition-colors duration-200"
-      [checked]="todo.completed"
-      (change)="toggle.emit(todo.id)"
+      [checked]="todo().completed"
+      (change)="onToggle()"
     />
     <span
       [ngClass]="{
-        'line-through text-gray-400': todo.completed,
-        'text-gray-800': !todo.completed
+        'line-through text-gray-400': todo().completed,
+        'text-gray-800': !todo().completed
       }"
       class="w-full text-lg font-medium transition-colors duration-200"
     >
-      {{ todo.title }}
+      {{ todo().title }}
     </span>
   </div>
 
   <button
     [ngClass]="{
-      'bg-red-300 text-red-800': todo.completed,
-      'bg-red-100 text-red-600': !todo.completed
+      'bg-red-300 text-red-800': todo().completed,
+      'bg-red-100 text-red-600': !todo().completed
     }"
     class="text-sm px-4 py-1 rounded-md transition-colors duration-200 hover:bg-red-400"
-    (click)="remove.emit(todo.id)"
+    (click)="onRemove()"
   >
-    X
+    삭제
   </button>
 </li>
