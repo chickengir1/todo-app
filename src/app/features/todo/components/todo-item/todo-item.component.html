@@ -18,13 +18,12 @@
       {{ todo().title }}
     </span>
   </div>
-
   <button
+    class="text-sm px-4 py-1 rounded-md transition-colors duration-200 hover:bg-red-400 whitespace-nowrap min-w-[60px]"
     [ngClass]="{
       'bg-red-300 text-red-800': todo().completed,
       'bg-red-100 text-red-600': !todo().completed
     }"
-    class="text-sm px-4 py-1 rounded-md transition-colors duration-200 hover:bg-red-400"
     (click)="onRemove()"
   >
     삭제

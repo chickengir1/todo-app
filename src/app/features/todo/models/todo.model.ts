@@ -6,13 +6,9 @@ export interface Todo {
 }
 
 export interface TodoPageViewModel {
-  title: string;
   todoList: Todo[];
-  activeTodos: Todo[];
-  completedTodos: Todo[];
   remainingCount: number;
   totalCount: number;
   hasCompletedTodos: boolean;
-  isEmpty: boolean;
   canAddTodo: boolean;
 }

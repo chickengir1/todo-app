@@ -10,15 +10,9 @@ import type { Todo } from '../../models/todo.model';
 })
 export class TodoItemComponent {
   readonly todo = input.required<Todo>();
-
   readonly toggle = output<string>();
   readonly remove = output<string>();
 
-  onToggle(): void {
-    this.toggle.emit(this.todo().id);
-  }
-
-  onRemove(): void {
-    this.remove.emit(this.todo().id);
-  }
+  readonly onToggle = (): void => this.toggle.emit(this.todo().id);
+  readonly onRemove = (): void => this.remove.emit(this.todo().id);
 }
