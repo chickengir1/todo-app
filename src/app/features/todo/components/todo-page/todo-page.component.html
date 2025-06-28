@@ -18,12 +18,13 @@
     </button>
   </div>
   <ul class="space-y-3 mb-6">
+    @for (t of todoService.todoList$ | async; track t.id) {
     <app-todo-item
-      *ngFor="let t of todoService.todoList$ | async"
       [todo]="t"
       (toggle)="toggleTodo($event)"
       (remove)="removeTodo($event)"
     ></app-todo-item>
+    }
     <li
       *ngIf="(todoService.todoList$ | async)?.length === 0"
       class="text-center text-gray-500 py-4"
